@@ -2,6 +2,7 @@ package com.jayzebra.feedsmodule.adapter.out.entity;
 
 import com.jayzebra.feedsmodule.domain.model.FeedsJsonToMapConverter;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -22,8 +23,12 @@ public class FeedOperationEntity {
     @Enumerated(EnumType.STRING)
     private FeedOperationStatus status;
 
+    @CreationTimestamp
+    @Column(nullable = false,updatable = false)
     private OffsetDateTime createdAt;
 
+
+    //Getters and Setters
     public String getId() {
         return id;
     }
@@ -63,6 +68,7 @@ public class FeedOperationEntity {
     public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 
     public enum FeedOperationType{
         CLAIM, REASSIGN, ACKNOWLEDGE, COMPLETE, ESCALATE

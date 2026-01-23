@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,8 +35,8 @@ public class FeedEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
-    // Optional: Reference to a user if feeds are assigned to users
-    // private UUID assigneeId;
-    // @ManyToOne or @OneToOne relationship with UserEntity can be added here if needed
+    //Deleting a FeedEntity, will automatically delete all its associated FeedNoteEntity records first, preventing the foreign key violation.
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FeedNoteEntity> feedNotes;
 }
 
