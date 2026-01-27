@@ -9,6 +9,9 @@ import com.jayzebra.rtm.domain.service.RtmOperationService;
 import com.jayzebra.feedsmodule.domain.service.FeedNoteService;
 import com.jayzebra.surveys.domain.port.output.SurveyRepositoryPort;
 import com.jayzebra.surveys.domain.service.SurveyService;
+import com.jayzebra.usermodule.domain.port.out.UserRepositoryPort;
+import com.jayzebra.usermodule.domain.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.jayzebra.feedsmodule.domain.service.FeedService;
@@ -38,6 +41,11 @@ public class BeanConfiguration {
     @Bean
     FeedOperationService feedOperationService(FeedOperationRepositoryPort feedOperationRepositoryPort){
         return new FeedOperationService(feedOperationRepositoryPort);
+    }
+
+    @Bean
+    UserService userService(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper){
+        return new UserService(userRepositoryPort ,modelMapper);
     }
 
 

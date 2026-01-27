@@ -1,43 +1,65 @@
 package com.jayzebra.usermodule.domain.service;
 
-import com.jayzebra.usermodule.adapter.out.repository.UserRepository;
-import com.jayzebra.usermodule.domain.dto.User;
-import com.jayzebra.usermodule.domain.port.in.UserSessionsUsecase;
-import com.jayzebra.usermodule.domain.port.in.UserUsecase;
+import com.jayzebra.usermodule.adapter.out.entity.UserEntity;
+import com.jayzebra.usermodule.domain.dto.UserDto;
+import com.jayzebra.usermodule.domain.port.in.UserUseCase;
 import com.jayzebra.usermodule.domain.port.out.UserRepositoryPort;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class UserService implements UserUsecase, UserSessionsUsecase {
+@Service
+public class UserService implements UserUseCase {
 
-    private final UserRepositoryPort repository;
-
-    public UserService(UserRepositoryPort repository) {
-        this.repository = repository;
+    private final UserRepositoryPort userRepositoryPort;
+    private final ModelMapper modelMapper;
+    public UserService(UserRepositoryPort userRepositoryPort, ModelMapper modelMapper) {
+        this.userRepositoryPort = userRepositoryPort;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<User> listAllUsers() {
-        return repository.findAll();
+    public List<UserDto> listUsers() {
+        return userRepositoryPort.findAll().stream()
+                .map(userEntity -> modelMapper.map(userEntity, UserDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(String userId) {
-        return repository.findById(userId).orElseThrow(() ->new RuntimeException("User not Found"));
+    public Optional<UserDto> getUserById(String userId) {
+        return userRepositoryPort.findById(userId)
+                .map(userEntity -> modelMapper.map(userEntity, UserDto.class));
     }
 
     @Override
-    public List<org.apache.catalina.User> getAllUsers() {
-        return List.of();
+    public void uploadUserImage(String userId, MultipartFile imageFile) {
+        // 1. Find the user entity
+        UserEntity user = userRepositoryPort.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        // 2. In a real application, you would upload the file to a cloud storage
+        //    service (like AWS S3, Google Cloud Storage) and get back a URL.
+        //    For this example, we'll just generate a dummy path.
+        String fileExtension = getFileExtension(imageFile.getOriginalFilename());
+        String newFileName = UUID.randomUUID() + "." + fileExtension;
+        String imageUrl = "/images/users/" + newFileName; // Example URL
+
+        // 3. Update the user's profile image URL
+        user.setProfileImageUrl(imageUrl);
+
+        // 4. Save the updated user entity
+        userRepositoryPort.save(user);
     }
 
-    @Override
-    public String login(String userId) {
-        return "";
-    }
-
-    @Override
-    public void logout(String sessionId) {
-
+    private String getFileExtension(String fileName) {
+        if (fileName == null || fileName.lastIndexOf('.') == -1) {
+            return "";
+        }
+        return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
 }

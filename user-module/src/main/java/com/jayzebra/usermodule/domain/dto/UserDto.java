@@ -5,12 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class User {
-    private String userId;
-    @NotBlank(message = "UserName Should be of aplhanumeric")
-    private String userName;
+public class UserDto {
+    private String id;
+    private String username;
     private String firstName;
     private String lastName;
-    @Email
     private String email;
+    private String profileImageUrl;
+
 }
+

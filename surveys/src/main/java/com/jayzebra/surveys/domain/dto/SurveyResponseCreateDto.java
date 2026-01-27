@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.Map;
 
+//Dto for the surveyResponse
 @Data
 public class SurveyResponseCreateDto {
     private Map<String, String> responses;

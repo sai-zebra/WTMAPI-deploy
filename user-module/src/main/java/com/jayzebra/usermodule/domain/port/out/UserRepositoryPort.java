@@ -1,14 +1,15 @@
 package com.jayzebra.usermodule.domain.port.out;
 
-import com.jayzebra.usermodule.domain.dto.User;
+import com.jayzebra.usermodule.adapter.out.entity.UserEntity;
+import org.springframework.modulith.NamedInterface;
 
 import java.util.List;
 import java.util.Optional;
 
+@NamedInterface
 public interface UserRepositoryPort {
-    List<User> findAll();
-    Optional<User> findById(String userId);
-    String existsById(String userId);
-
-    User save(User user);
+    List<UserEntity> findAll();
+    Optional<UserEntity> findById(String userId);
+    UserEntity save(UserEntity user);
 }
+
