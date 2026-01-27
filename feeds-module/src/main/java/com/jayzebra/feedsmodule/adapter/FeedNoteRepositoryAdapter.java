@@ -1,11 +1,13 @@
 package com.jayzebra.feedsmodule.adapter;
 
+import com.jayzebra.common.config.ModelMapperConfig;
 import com.jayzebra.feedsmodule.adapter.out.entity.FeedEntity;
 import com.jayzebra.feedsmodule.adapter.out.entity.FeedNoteEntity;
 import com.jayzebra.feedsmodule.adapter.out.repository.FeedNoteRepository;
 import com.jayzebra.feedsmodule.domain.model.FeedNote;
 import com.jayzebra.feedsmodule.domain.port.output.FeedNoteRepositoryPort;
 import lombok.AllArgsConstructor;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @Repository
 public class FeedNoteRepositoryAdapter implements FeedNoteRepositoryPort {
     private final FeedNoteRepository feedNoteRepository;
+
     private final ModelMapper modelMapper;
 
     public FeedNoteRepositoryAdapter(FeedNoteRepository feedNoteRepository, ModelMapper modelMapper) {

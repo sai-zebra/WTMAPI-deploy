@@ -80,6 +80,10 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope> <!-- Ensure test scope if only for tests -->
         </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-api</artifactId>
+        </dependency>
     </dependencies>
 
     <!--

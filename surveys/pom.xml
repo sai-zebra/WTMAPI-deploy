@@ -55,6 +55,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-api</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- Removed <properties>, <dependencyManagement>, and <build> sections -->
