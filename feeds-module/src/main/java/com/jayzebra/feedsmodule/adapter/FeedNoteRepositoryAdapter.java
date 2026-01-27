@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-
 public class FeedNoteRepositoryAdapter implements FeedNoteRepositoryPort {
     private final FeedNoteRepository feedNoteRepository;
     private final ModelMapper modelMapper;
