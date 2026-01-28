@@ -7,11 +7,13 @@ import com.jayzebra.feedsmodule.domain.port.input.GetFeedNoteUseCase;
 import com.jayzebra.feedsmodule.domain.port.input.UpdateFeedNoteUseCase;
 import com.jayzebra.feedsmodule.domain.port.output.FeedNoteRepositoryPort;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class FeedNoteService implements CreateFeedNoteUseCase, DeleteFeedNoteUseCase, GetFeedNoteUseCase, UpdateFeedNoteUseCase {
 
     private final FeedNoteRepositoryPort feedNoteRepositoryPort;

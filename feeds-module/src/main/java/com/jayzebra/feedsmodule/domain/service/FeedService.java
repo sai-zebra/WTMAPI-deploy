@@ -8,9 +8,12 @@ import com.jayzebra.feedsmodule.domain.port.input.DeleteFeedUseCase;
 import com.jayzebra.feedsmodule.domain.port.input.GetFeedUseCase;
 import com.jayzebra.feedsmodule.domain.port.input.UpdateFeedUseCase;
 import com.jayzebra.feedsmodule.domain.port.output.FeedRepositoryPort;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class FeedService implements CreateFeedUseCase, DeleteFeedUseCase, GetFeedUseCase, UpdateFeedUseCase {
 
     //Output port object

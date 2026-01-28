@@ -6,12 +6,15 @@ import com.jayzebra.surveys.domain.dto.SurveyCreateDto;
 import com.jayzebra.surveys.domain.dto.SurveyResponseCreateDto;
 import com.jayzebra.surveys.domain.port.input.SurveyUseCase;
 import com.jayzebra.surveys.domain.port.output.SurveyRepositoryPort;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
 /**
  Service - Main logic
  **/
+@Service
 public class SurveyService implements SurveyUseCase {
 
     private final SurveyRepositoryPort surveyRepositoryPort;
