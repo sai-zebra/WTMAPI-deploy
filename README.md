@@ -4,7 +4,6 @@
 [![Java Version](https://img.shields.io/badge/java-17-blue.svg)](https://www.java.com)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com)
 [![Test Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen.svg)](https://github.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **An enterprise-grade API for the Workcloud Task Management ecosystem, built with Spring Boot and meticulously designed using Hexagonal Architecture.**
 
@@ -223,20 +222,36 @@ mvn test
 
 Security is a primary concern, implemented via **Spring Security**.
 
-*   **Authentication**: The API is secured using **OAuth2 / JWT Bearer Tokens**, which must be provided in the `Authorization` header.
-*   **Authorization**: Endpoint access is controlled by granular scopes. Access is enforced declaratively using `@PreAuthorize` annotations (e.g., `@PreAuthorize("hasAuthority('SCOPE_mywork.write')")`).
-*   **Configuration**: All security rules, CORS policies, and public endpoints (like `/actuator/health`) are configured centrally in a dedicated `SecurityConfig` class.
-*   **Stateless by Design**: As a REST API, the service is stateless, with CSRF protection disabled as it is not needed for non-browser-based clients.
+*   **Authentication**: The API is secured using **HTTP Basic Authentication**. Clients must send a valid, Base64-encoded username and password in the `Authorization` header with each request.
+*   **Authorization**: Endpoint access is controlled by user roles. Access is enforced declaratively using method-level annotations (e.g., `@PreAuthorize("hasRole('USER')")`) or configured centrally for URL patterns.
+*   **Configuration**: All security rules, CORS policies, and public endpoints (like `/actuator/health`) are defined in a dedicated `SecurityConfig` class for clear and centralized management.
+*   **Stateless by Design**: As a REST API, the service is stateless. CSRF protection is disabled, as it is not needed for the non-browser-based clients this API is intended for.
 
 ### Configuration Management
 
-The application uses **Spring Profiles** to manage environment-specific configurations.
+The application uses **Spring Profiles** to manage environment-specific configurations. This allows for different settings for local development and production without changing the code.
 
-*   `application.properties`: Contains common properties shared across all environments.
-*   `application-local.properties`: Properties for local development (e.g., local database credentials, disabling security for easy testing).
-*   `application-prod.properties`: Properties for the production environment (e.g., production database host, secure credentials managed via environment variables).
+All property files are located in the `application/src/main/resources/` directory.
 
-To run with a specific profile, use the `-Dspring.profiles.active=local` JVM argument.
+---
+
+#### `application.properties` (Common Properties)
+
+This file contains properties that are shared across all environments. It's a good place for the application name, database dialect, and connection pool settings.
+
+```properties
+# Application name
+spring.application.name=application
+
+# JPA / Hibernate Settings
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# Default Hikari Connection Pool Settings
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
+spring.datasource.hikari.idle-timeout=300000
+
+```
 
 ### Logging & Observability
 
